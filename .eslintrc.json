@@ -1,0 +1,18 @@
+{
+	"env": {
+		"node": true,
+		"es2021": true
+	},
+	"extends": "eslint:recommended",
+	"parserOptions": {
+		"ecmaVersion": "latest",
+		"sourceType": "module"
+	},
+	"rules": {
+		"no-process-exit": "off",
+		"indent": ["error", "tab"],
+		"linebreak-style": ["error", "windows"],
+		"quotes": ["off"],
+		"semi": ["error", "always"]
+	}
+}

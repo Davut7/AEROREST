@@ -1,0 +1,38 @@
+{
+	"name": "excel_backend",
+	"version": "1.0.0",
+	"description": "",
+	"main": "server.js",
+	"type": "module",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "nodemon server.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"bcrypt": "^5.1.1",
+		"compression": "^1.7.4",
+		"cookie-parser": "^1.4.6",
+		"cors": "^2.8.5",
+		"dotenv": "^16.3.1",
+		"express": "^4.18.2",
+		"express-rate-limit": "^6.9.0",
+		"file-type": "^18.5.0",
+		"helmet": "^7.0.0",
+		"http-errors": "^2.0.0",
+		"joi": "^17.9.2",
+		"jsonwebtoken": "^9.0.1",
+		"morgan": "^1.10.0",
+		"multer": "^1.4.5-lts.1",
+		"mysql2": "^3.9.2",
+		"pg": "^8.11.2",
+		"redis": "^4.6.7",
+		"sequelize": "^6.37.1",
+		"uuid": "^9.0.1"
+	},
+	"devDependencies": {
+		"eslint": "^8.47.0"
+	}
+}

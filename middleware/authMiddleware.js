@@ -1,7 +1,8 @@
+import { User } from '../models/Model.js';
 import tokenService from '../services/tokenService.js';
 import createError from 'http-errors';
 
-export default (req, res, next) => {
+export default async (req, res, next) => {
 	try {
 		const authorization = req.headers.authorization;
 		if (!authorization) {
@@ -16,14 +17,16 @@ export default (req, res, next) => {
 				createError.Unauthorized('Invalid authorization header')
 			);
 		}
-
 		const accessToken = tokenParts[1];
-		const user = tokenService.verifyAccessToken(accessToken);
-		if (!user) {
+		const verifiedUser = tokenService.verifyAccessToken(accessToken);
+		if (!verifiedUser) {
 			return next(createError.Unauthorized('Invalid access token'));
 		}
-
-		req.user = user;
+		const user = await User.findOne({ where: { id: verifiedUser.id } });
+		if (!user.isActive) {
+			return next(createError.Unauthorized('Invalid access token'));
+		}
+		req.user = verifiedUser;
 		next();
 	} catch (error) {
 		console.error('Authentication error:', error);

@@ -13,7 +13,11 @@ class AuthService {
 				`User with email ${email} already exists`
 			);
 		const hashedPassword = await bcrypt.hash(password, 10);
-		const user = await User.create({ email, password: hashedPassword });
+		const user = await User.create({
+			email,
+			password: hashedPassword,
+			isActive: true,
+		});
 		const userDto = new UserDto(user);
 		const tokens = tokenService.generateTokens({ ...userDto });
 		await tokenService.saveToken(user.id, tokens.refreshToken);
@@ -33,6 +37,7 @@ class AuthService {
 		const checkPassword = await bcrypt.compare(password, user.password);
 		if (!checkPassword) throw createError.BadRequest(`Wrong password!`);
 		const userDto = new UserDto(user);
+		user.update({ isActive: true });
 		const tokens = tokenService.generateTokens({ ...userDto });
 		await tokenService.saveToken(user.id, tokens.refreshToken);
 		return {
@@ -62,9 +67,11 @@ class AuthService {
 		};
 	}
 
-	async logout(refreshToken) {
+	async logout(refreshToken, currentUser) {
 		if (!refreshToken) throw new createError.Unauthorized();
 		const token = await tokenService.findToken(refreshToken);
+		const user = await User.findOne({ where: { id: currentUser.id } });
+		await user.update({ isActive: false });
 		await tokenService.deleteToken(token.id);
 	}
 

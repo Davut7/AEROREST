@@ -8,7 +8,7 @@ const router = Router();
 router.post('/signup', catchAsync(authController.signup));
 router.post('/signin/new_token', catchAsync(authController.refresh));
 router.post('/signin', catchAsync(authController.signin));
-router.get('/logout', catchAsync(authController.logout));
+router.get('/logout', authMiddleware, catchAsync(authController.logout));
 router.get('/info', authMiddleware, catchAsync(authController.getMe));
 
 export default router;
